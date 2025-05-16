@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useState } from 'react';
+import { useCart } from '../context/CartContext';
 
 export default function Navigation() {
   const { isLoggedIn, isAdmin, logout } = useAuth();
   const [adminMenuOpen, setAdminMenuOpen] = useState(false);
+  const { getCartCount } = useCart();
 
   return (
     <nav className="bg-dark/95 backdrop-blur-sm fixed w-full z-50">
@@ -63,6 +65,16 @@ export default function Navigation() {
             </div>
           </div>
           <div className="flex items-center space-x-4">
+            <Link to="/cart" className="relative group">
+              <svg className="w-7 h-7 text-light group-hover:text-primary transition-colors" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <circle cx="9" cy="21" r="1" />
+                <circle cx="20" cy="21" r="1" />
+                <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6" />
+              </svg>
+              {getCartCount() > 0 && (
+                <span className="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full px-2 py-0.5 font-bold shadow">{getCartCount()}</span>
+              )}
+            </Link>
             {isLoggedIn ? (
               <>
                 <span className="text-light text-sm">
